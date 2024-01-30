@@ -1,16 +1,26 @@
 body {
+    margin-top: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
     background-color: #f8f9fa;
+    
 }
 
-.login-container {
+
+.signup-container {
+    margin: -25%;
     max-width: 400px;
-    padding: 20px;
+    padding: 10px;
+    padding-top: 40px;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2{
+    text-align: center;
+    margin-bottom: 25px;
 }
