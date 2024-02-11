@@ -9,11 +9,14 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="admin.css">
+
 </head>
 
 <Html>
     <Body>
-
+        
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <a style="margin-left: 10px;" class="navbar-brand" href="index.html">
               <img
@@ -65,7 +68,7 @@
             </div>
           </nav>
 
-          <div class="container mt-5">
+          <div class="container mt-5 admin-container" >
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
@@ -101,7 +104,87 @@
             </div>
         </div>
 
-        
+        <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel"> Yeni Ürün ekle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                </div>
+                <div class="modal-body">
+                    <form id="productForm" enctype="multipart/form-data">
+                      <div class="mb-3">
+                        <label for="productBrandId" class="form-label">Marka Id:</label>
+                        <input type="number" class="form-control" id="productBrandId" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="productBrand" class="form-label">Marka:</label>
+                          <input type="text" class="form-control" id="productBrand" required>
+                      </div>
+                        <div class="mb-3">
+                            <label for="productModel" class="form-label">Model:</label>
+                            <input type="text" class="form-control" id="productModel" required>
+                        </div>                        
+                        <div class="mb-3">
+                          <label for="productColor" class="form-label">Renk:</label>
+                          <select type="text" class="form-control" id="productColor" required>
+                            <option disabled selected>Renk Seçiniz</option>
+                            <option value="BLACK" style="color: white; background-color: black;">SİYAH</option>
+                            <option value="RED" style="background-color: red;">KIRMIZ</option>
+                            <option value="BLUE" style="background-color: blue;">MAVİ</option>
+                            <option value="WHITE" >BEYAZ</option>
+                            <option value="GRAY" style="background-color: gray;">GRİ</option>                            
+                          </select>
+                        </div>
+
+                        <div class="mb-3">
+                          <label for="productGear" class="form-label">VİTES:</label>
+                          <br>
+                          <input type="radio"  id="manualGear" name="gearStatus" required>  
+                          <label for="manualGear" >Manuel</label>                          
+                          <input type="radio" id="automaticGear" name="gearStatus" required>
+                          <label for="automaticGear" >Otomatik</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="productPrice" class="form-label">Fiyat:</label>
+                            <input type="number" class="form-control" id="productPrice" required>
+                        </div>
+
+                        <div class="mb-3">
+                          <label for="productYear" class="form-label">Üretim Yılı:</label>
+                          <input type="number" class="form-control" id="productYear" required 
+                          min="2015" max="2024" placeholder="2015-2024 arası bir yıl giriniz">
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="productKM" class="form-label">Toplam KM Bilgisi:</label>
+                        <input type="number" class="form-control" id="productKM" required>
+                    </div>
+
+                        <div class="mb-3">
+                            <label for="productUnitsInStock" class="form-label">Stok:</label>
+                            <input type="number" class="form-control" id="productUnitsInStock" required>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="productActive">
+                            <label class="form-check-label" for="productActive">Aktif</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productImage" class="form-label">Görsel Ekle:</label>
+                            <input type="file" class="form-control" id="productImage" name="productImage"
+                                accept="image/*">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="addProduct()">Ürün Ekle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
       
 
