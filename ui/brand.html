@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MARKALAR</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="brand.css">
+    <link rel="stylesheet" href="navbar.css">
+
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a style="margin-left: 10px;" class="navbar-brand" href="index.html">
+          <img
+            src="car-icon.png"
+            width="35"
+            height="35"
+            class="d-inline-block align-top"
+            alt="ANA SAYFA"
+          />
+        </a>
+  
+        <div class="collapse navbar-collapse right" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="login.html" id="loginLink">Giriş Yap</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="signup.html" id="signupLink">Kaydol</a>
+            </li>
+            <li class="nav-item" style="display: none" id="logoutLink">
+              <a class="nav-link" href="logout.html">Çıkış Yap</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Seçenekler
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+          </ul>
+          <a style="margin-left: 10px;" class="navbar-brand" href="#">
+            <img
+              src="key-icon.png"
+              width="30"
+              height="30"
+              class="d-inline-block align-top"
+              alt="SEPET"
+            />
+          </a>
+        </div>
+      </nav>
+
+      <div class="container mt-5 brand-container">
+        <h2 class="margin-top">Brand Management</h2>
+
+        <!-- Brand Form -->
+        <form id="brandForm" class="mb-4">
+            <div class="form-group brand-button margin-bottom">
+                <label for="name">Brand Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <button type="button" class="btn btn-primary" id="addBrandBtn">Add Brand</button>
+        </form>
+
+        <!-- Brand Table -->
+        <table id="brandTable" class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Buraya dinamik olarak eklenen tablo içeriği gelecek -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Düzenleme Modalı -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Brand</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Düzenleme Formu -->
+                    <form id="editForm">
+                        <!-- Bu input ile düzenlenen kategorinin ID'sini saklayın -->
+                        <input type="hidden" id="editBrandId" name="editBrandId">
+
+                        <div class="form-group">
+                            <label for="editBrandName">Brand Name:</label>
+                            <input type="text" class="form-control" id="editBrandName" name="editBrandName"
+                                required>
+                        </div>
+
+                        <!-- Diğer input alanları eklenebilir -->
+
+                        <button type="button" class="btn btn-primary" onclick="editBrand()">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="brand.js"></script>
+
+</body>
+</html>
