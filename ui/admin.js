@@ -6,7 +6,8 @@ function logSelectedGear(selectedGear) {
     if (selectedGear !== null) {
         console.log("Seçilen Vites: " + selectedGear);
     } else {
-        console.log("Vites seçilmedi.");
+        console.log("Vites seçilmedi.");,
+
     }
 }
 
@@ -19,8 +20,9 @@ async function addProduct() {
     // select yapısı denemek için:
     console.log("Seçilen Renk Değeri: " + productColor);    
     // Vites seçimi için önce id alınmalı. name bilgisi üzerinden bu sağlanıyor. 
-    const selectedGear = document.querySelector('input[name="gearStatus"]:checked');
     const productGear = selectedGear ? selectedGear.id : null;
+    const selectedGear = document.querySelector('input[name="gearStatus"]:checked');
+    
     // vites bilgi görmek için
     logSelectedGear(productGear);
     const productPrice = document.getElementById('productPrice').value;
@@ -78,24 +80,24 @@ async function renderProductTable() {
     const productTableBody = document.getElementById("productTableBody");
     productTableBody.innerHTML = "";
 
-    products.forEach(product => {
+    products.forEach(car => {
 
         const row = productTableBody.insertRow();
         row.innerHTML = `
-        <td> ${product.brandId} </td>
-        <td> ${product.brand } </td>
-        <td> ${product.model} </td>
-        <td> ${product.color } </td>
-        <td> ${product.gear} </td>
-        <td> ${product.price} </td>
-        <td> ${product.year} </td>
-        <td> ${product.totalKm} </td>    
-        <td> ${product.unitsInStock} </td>
-        <td><img src="C:\\Users\\hasan.demircan\\Desktop\\e-commerce\\${product.image}" alt="${product.name}" style="max-width: 50px; ax-height: 50px;"> </td>
-        <td> ${product.active ? 'Yes' : 'No'} </td>
+        <td> ${car.brandId} </td>
+        <td> ${car.brand } </td>
+        <td> ${car.model} </td>
+        <td> ${car.color } </td>
+        <td> ${car.gear} </td>
+        <td> ${car.price} </td>
+        <td> ${car.year} </td>
+        <td> ${car.totalKm} </td>    
+        <td> ${car.unitsInStock} </td>
+        <td><img src="C:\\Users\\hasan.demircan\\Desktop\\e-commerce\\${car.image}" alt="${car.name}" style="max-width: 50px; ax-height: 50px;"> </td>
+        <td> ${car.active ? 'Yes' : 'No'} </td>
         <td>
-            <button class="btn btn-warning btn-sm" onclick="editProduct(${product.id})">Güncelle</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">Sil</button>
+            <button class="btn btn-warning btn-sm" onclick="editProduct(${car.id})">Güncelle</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${car.id})">Sil</button>
         </td>    
       `;
     });
@@ -126,11 +128,11 @@ async function getAllProduct() {
 }
 
 // Ürünü silmek için
-function deleteProduct(productId) {
+function deleteProduct(carId) {
     const confirmed = confirm("Are you sure you want to delete this product?");
     if (confirmed) {
         // Silme işlemi burada gerçekleştirilebilir.
-        fetch('http://localhost:8081/car/' + productId, {
+        fetch('http://localhost:8081/car/' + carId, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -141,7 +143,7 @@ function deleteProduct(productId) {
                 if (response.ok) {
                     // Başarılı ise tabloyu güncelle
 
-                    products = products.filter(product => product.id !== productId);
+                    products = products.filter(product => car.id !== carId);
                     renderProductTable();
                 } else {
                     // Başarısız ise hata mesajını logla
@@ -154,4 +156,117 @@ function deleteProduct(productId) {
 
     }
 }
+
+function resetAddProductForm() {
+    document.getElementById('productImage');
+    document.getElementById('productBrandId').value;
+    document.getElementById('productBrand').value;
+    document.getElementById('productModel').value; 
+    document.getElementById('productColor').value;     
+    // Vites seçimi için önce id alınmalı. name bilgisi üzerinden bu sağlanıyor. 
+    const productGear = selectedGear ? selectedGear.id : null;
+    document.querySelector('input[name="gearStatus"]:checked');
+    
+    
+    document.getElementById('productPrice').value;
+    document.getElementById('productYear').value;
+    document.getElementById('productKM').value;
+    document.getElementById('productUnitsInStock').value;
+    document.getElementById('productActive').checked;
+}
+
+// Düzenleme modalını kapatmak için
+function closeEditProductModal() {
+    const editProductModal = new bootstrap.Modal(document.getElementById("editProductModal"));
+    editProductModal.hide();
+}
+
+//Ürünü düzenlemek için modal görünümünü göster ve veri güncelle
+function editProduct(productId) {
+    const selectedProduct = products.find(product => product.id === productId);
+
+    document.getElementById('editProductId').value = selectedProduct.brandId;
+    document.getElementById('editProductBrandId').value = selectedProduct.brandId;
+    document.getElementById('editProductBrand').value = selectedProduct.brand;
+    document.getElementById('editProductModel').value = selectedProduct.model; 
+    document.getElementById('editProductColor').value = selectedProduct.color;    
+    document.getElementById('editProductGear').value = selectedProduct.gear; 
+    document.getElementById('editProductPrice').value = selectedProduct.price;
+    document.getElementById('editProductYear').value = selectedProduct.year;
+    document.getElementById('editProductKM').value = selectedProduct.totalKm;
+    document.getElementById('editProductUnitsInStock').value = selectedProduct.unitsInStock;
+    document.getElementById('editProductActive').checked = selectedProduct.active;
+
+    const editProductModal = new bootstrap.Modal(document.getElementById("editProductModal"));
+    editProductModal.show();
+}
+
+//Düzenlenmiş ürünü kaydetmek için 
+function saveEditedProduct() {
+
+    const editedProductId = parseInt(document.getElementById("editProductId").value);
+    //Görsel seçimi için input elementini al
+    const editedImageInput = document.getElementById('editProductImage');
+    const editedProductBrandId = document.getElementById('editProductBrandId').value;
+    const editedProductBrand = document.getElementById('editProductBrand').value;
+    const editedProductModel = document.getElementById('editProductModel').value; 
+    const editedProductColor = document.getElementById('editProductColor').value;
+    const editedProductGear = document.getElementById('editProductGear').value;
+    const editedProductPrice = document.getElementById('editProductPrice').value;
+    const editedProductYear = document.getElementById('editProductYear').value;
+    const editedProductKM = document.getElementById('editProductKM').value;
+    const editedProductUnitsInStock = document.getElementById('editProductUnitsInStock').value;
+    const editedProductActive = document.getElementById('editProductActive').checked;
+
+    
+    
+
+    const productData = {
+        id: editedProductId,
+        brand: editProductBrand,
+        model: editProductModel,
+        color: editProductColor,
+        gear: editProductGear,
+        price: editedProductPrice,
+        year: editedProductYear,
+        totalKm: editedProductKM,
+        unitsInStock: editedProductUnitsInStock,
+        
+        active: editedProductActive,
+        image: products.find(product => product.id === editedProductId).image
+    };
+
+    const formData = new FormData();
+    formData.append('file', feditedSelectedImage = editedImageInput.files[0]);
+    formData.append('product', new Blob([JSON.stringify(productData)], { type: 'application/json' }));
+
+    fetch('http://localhost:8081/car/update', {
+        method: 'PUT',
+        headers: {
+            'Authorization': 'Bearer ' + jwtToken
+        },
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Başarılı sonuç
+            console.log(data);
+        })
+        .catch(error => {
+            // Hata durumu
+            console.error('Error:', error);
+        });
+    // Edit modalı kapat
+    $('#editProductModal').modal('hide');
+
+    closeEditProductModal();
+    //  $('#editProductModal').modal('hide'); // Modal'ı kapat.
+}
+
+// Sayfa yüklendiğinde çağrılacak fonksiyonlar
+document.addEventListener("DOMContentLoaded", async () => {
+    await getAllProduct();
+    renderProductTable();
+})
+
 
