@@ -1,0 +1,9 @@
+body {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    background-color: #f8f9fa;
+    
+}

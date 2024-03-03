@@ -76,7 +76,7 @@
                             <h3 class="mb-0"> Ürün Yönetimi</h3>
                         </div>
                         <div class="card-body">
-                            <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                            <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addCarModal">
                                 Yeni Ürün Ekle </button>
                             <table class="table">
                                 <thead>
@@ -94,7 +94,7 @@
                                         <th>Görsel</th>
                                     </tr>
                                 </thead>
-                                <tbody id="productTableBody">
+                                <tbody id="carTableBody">
                                     <!-- Ürünler buraya dinamik olarak eklecek-->
                                 </tbody>
                             </table>
@@ -103,33 +103,33 @@
                 </div>
             </div>
         </div>
-          <!--  Add Product Modal-->
-        <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
+          <!--  Add Car Modal-->
+        <div class="modal fade" id="addCarModal" tabindex="-1" aria-labelledby="addCarModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addProductModalLabel"> Yeni Ürün ekle</h5>
+                    <h5 class="modal-title" id="addCarModalLabel"> Yeni Ürün ekle</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
                 </div>
                   <div class="modal-body">
-                    <form id="productForm" enctype="multipart/form-data">
+                    <form id="carForm" enctype="multipart/form-data">
                       <div class="mb-3">
-                        <label for="productBrandId" class="form-label">Marka Id:</label>
-                        <input type="number" class="form-control" id="productBrandId" required>
+                        <label for="carBrandId" class="form-label">Marka Id:</label>
+                        <input type="number" class="form-control" id="carBrandId" required>
                         </div>
                         <div class="mb-3">
-                          <label for="productBrand" class="form-label">Marka:</label>
-                          <input type="text" class="form-control" id="productBrand" required>
+                          <label for="carBrand" class="form-label">Marka:</label>
+                          <input type="text" class="form-control" id="carBrand" required>
                       </div>
                         <div class="mb-3">
-                            <label for="productModel" class="form-label">Model:</label>
-                            <input type="text" class="form-control" id="productModel" required>
+                            <label for="carModel" class="form-label">Model:</label>
+                            <input type="text" class="form-control" id="carModel" required>
                         </div>                        
                         <div class="mb-3">
-                          <label for="productColor" class="form-label">Renk:</label>
-                          <select type="text" class="form-control" id="productColor" required>
+                          <label for="carColor" class="form-label">Renk:</label>
+                          <select type="text" class="form-control" id="carColor" required>
                             <option disabled selected>Renk Seçiniz</option>
                             <option value="BLACK" style="color: white; background-color: black;">SİYAH</option>
                             <option value="RED" style="background-color: red;">KIRMIZ</option>
@@ -140,7 +140,7 @@
                         </div>
 
                         <div class="mb-3">
-                          <label for="productGear" class="form-label">VİTES:</label>
+                          <label for="carGear" class="form-label">VİTES:</label>
                           <br>
                           <input type="radio"  id="manualGear" name="gearStatus" required>  
                           <label for="manualGear" >Manuel</label>                          
@@ -149,36 +149,36 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="productPrice" class="form-label">Fiyat:</label>
-                            <input type="number" class="form-control" id="productPrice" required>
+                            <label for="carPrice" class="form-label">Fiyat:</label>
+                            <input type="number" class="form-control" id="carPrice" required>
                         </div>
 
                         <div class="mb-3">
-                          <label for="productYear" class="form-label">Üretim Yılı:</label>
-                          <input type="number" class="form-control" id="productYear" required 
+                          <label for="carYear" class="form-label">Üretim Yılı:</label>
+                          <input type="number" class="form-control" id="carYear" required 
                           min="2015" max="2024" placeholder="2015-2024 arası bir yıl giriniz">
                       </div>
 
                       <div class="mb-3">
-                        <label for="productKM" class="form-label">Toplam KM Bilgisi:</label>
-                        <input type="number" class="form-control" id="productKM" required>
+                        <label for="carKM" class="form-label">Toplam KM Bilgisi:</label>
+                        <input type="number" class="form-control" id="carKM" required>
                     </div>
 
                         <div class="mb-3">
-                            <label for="productUnitsInStock" class="form-label">Stok:</label>
-                            <input type="number" class="form-control" id="productUnitsInStock" required>
+                            <label for="carUnitsInStock" class="form-label">Stok:</label>
+                            <input type="number" class="form-control" id="carUnitsInStock" required>
                         </div>
                         
                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="productActive">
-                            <label class="form-check-label" for="productActive">Aktif</label>
+                            <input type="checkbox" class="form-check-input" id="carActive">
+                            <label class="form-check-label" for="carActive">Aktif</label>
                         </div>
                         <div class="mb-3">
-                            <label for="productImage" class="form-label">Görsel Ekle:</label>
-                            <input type="file" class="form-control" id="productImage" name="productImage"
+                            <label for="carImage" class="form-label">Görsel Ekle:</label>
+                            <input type="file" class="form-control" id="carImage" name="carImage"
                                 accept="image/*">
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="addProduct()">Ürün Ekle</button>
+                        <button type="button" class="btn btn-primary" onclick="addCar()">Ürün Ekle</button>
                     </form>
                 </div>
             </div>
@@ -186,32 +186,32 @@
 
     </div>
 
-     <!-- Edit Product Modal -->
-     <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+     <!-- Edit Car Modal -->
+     <div class="modal fade" id="editCarModal" tabindex="-1" aria-labelledby="editCarModalLabel"
      aria-hidden="true">
      <div class="modal-dialog">
          <div class="modal-content">
              <div class="modal-header">
-                 <h5 class="modal-title" id="editProductModalLabel">Ürün Güncelle</h5>
+                 <h5 class="modal-title" id="editCarModalLabel">Ürün Güncelle</h5>
                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form id="productForm" enctype="multipart/form-data">
+                  <form id="carForm" enctype="multipart/form-data">
                     <div class="mb-3">
-                      <label for="productBrandId" class="form-label">Marka Id:</label>
-                      <input type="number" class="form-control" id="productBrandId" required>
+                      <label for="carBrandId" class="form-label">Marka Id:</label>
+                      <input type="number" class="form-control" id="carBrandId" required>
                       </div>
                       <div class="mb-3">
-                        <label for="productBrand" class="form-label">Marka:</label>
-                        <input type="text" class="form-control" id="productBrand" required>
+                        <label for="carBrand" class="form-label">Marka:</label>
+                        <input type="text" class="form-control" id="carBrand" required>
                     </div>
                       <div class="mb-3">
-                          <label for="productModel" class="form-label">Model:</label>
-                          <input type="text" class="form-control" id="productModel" required>
+                          <label for="carModel" class="form-label">Model:</label>
+                          <input type="text" class="form-control" id="carModel" required>
                       </div>                        
                       <div class="mb-3">
-                        <label for="productColor" class="form-label">Renk:</label>
-                        <select type="text" class="form-control" id="productColor" required>
+                        <label for="carColor" class="form-label">Renk:</label>
+                        <select type="text" class="form-control" id="carColor" required>
                           <option disabled selected>Renk Seçiniz</option>
                           <option value="BLACK" style="color: white; background-color: black;">SİYAH</option>
                           <option value="RED" style="background-color: red;">KIRMIZ</option>
@@ -222,7 +222,7 @@
                       </div>
 
                       <div class="mb-3">
-                        <label for="productGear" class="form-label">VİTES:</label>
+                        <label for="carGear" class="form-label">VİTES:</label>
                         <br>
                         <input type="radio"  id="manualGear" name="gearStatus" required>  
                         <label for="manualGear" >Manuel</label>                          
@@ -231,36 +231,36 @@
                       </div>
 
                       <div class="mb-3">
-                          <label for="productPrice" class="form-label">Fiyat:</label>
-                          <input type="number" class="form-control" id="productPrice" required>
+                          <label for="carPrice" class="form-label">Fiyat:</label>
+                          <input type="number" class="form-control" id="carPrice" required>
                       </div>
 
                       <div class="mb-3">
-                        <label for="productYear" class="form-label">Üretim Yılı:</label>
-                        <input type="number" class="form-control" id="productYear" required 
+                        <label for="carYear" class="form-label">Üretim Yılı:</label>
+                        <input type="number" class="form-control" id="carYear" required 
                         min="2015" max="2024" placeholder="2015-2024 arası bir yıl giriniz">
                     </div>
 
                     <div class="mb-3">
-                      <label for="productKM" class="form-label">Toplam KM Bilgisi:</label>
-                      <input type="number" class="form-control" id="productKM" required>
+                      <label for="carKM" class="form-label">Toplam KM Bilgisi:</label>
+                      <input type="number" class="form-control" id="carKM" required>
                   </div>
 
                       <div class="mb-3">
-                          <label for="productUnitsInStock" class="form-label">Stok:</label>
-                          <input type="number" class="form-control" id="productUnitsInStock" required>
+                          <label for="carUnitsInStock" class="form-label">Stok:</label>
+                          <input type="number" class="form-control" id="carUnitsInStock" required>
                       </div>
                       
                       <div class="mb-3 form-check">
-                          <input type="checkbox" class="form-check-input" id="productActive">
-                          <label class="form-check-label" for="productActive">Aktif</label>
+                          <input type="checkbox" class="form-check-input" id="carActive">
+                          <label class="form-check-label" for="carActive">Aktif</label>
                       </div>
                       <div class="mb-3">
-                          <label for="productImage" class="form-label">Görsel Ekle:</label>
-                          <input type="file" class="form-control" id="productImage" name="productImage"
+                          <label for="carImage" class="form-label">Görsel Ekle:</label>
+                          <input type="file" class="form-control" id="carImage" name="carImage"
                               accept="image/*">
                       </div>
-                      <button type="button" class="btn btn-primary" onclick="addProduct()">Ürün Ekle</button>
+                      <button type="button" class="btn btn-primary" onclick="addCar()">Ürün Ekle</button>
                   </form>
               </div>
           </div>

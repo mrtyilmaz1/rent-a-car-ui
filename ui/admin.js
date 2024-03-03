@@ -1,4 +1,4 @@
-let products = [];
+let cars = [];
 
 const jwtToken = localStorage.getItem('jwtToken');
 
@@ -11,43 +11,43 @@ function logSelectedGear(selectedGear) {
     }
 }
 
-async function addProduct() {
-    const fileInput = document.getElementById('productImage');
-    const productBrandId = document.getElementById('productBrandId').value;
-    const productBrand = document.getElementById('productBrand').value;
-    const productModel = document.getElementById('productModel').value; 
-    const productColor = document.getElementById('productColor').value;
+async function addCar() {
+    const fileInput = document.getElementById('carImage');
+    const carBrandId = document.getElementById('carBrandId').value;
+    const carBrand = document.getElementById('carBrand').value;
+    const carModel = document.getElementById('carModel').value; 
+    const carColor = document.getElementById('carColor').value;
     // select yapısı denemek için:
-    console.log("Seçilen Renk Değeri: " + productColor);    
+    console.log("Seçilen Renk Değeri: " + carColor);    
     // Vites seçimi için önce id alınmalı. name bilgisi üzerinden bu sağlanıyor. 
-    const productGear = selectedGear ? selectedGear.id : null;
+    const carGear = selectedGear ? selectedGear.id : null;
     const selectedGear = document.querySelector('input[name="gearStatus"]:checked');
     
     // vites bilgi görmek için
-    logSelectedGear(productGear);
-    const productPrice = document.getElementById('productPrice').value;
-    const productYear = document.getElementById('productYear').value;
-    const productKM = document.getElementById('productKM').value;
-    const productUnitsInStock = document.getElementById('productUnitsInStock').value;
-    const productActive = document.getElementById('productActive').checked;
+    logSelectedGear(carGear);
+    const carPrice = document.getElementById('carPrice').value;
+    const carYear = document.getElementById('carYear').value;
+    const carKM = document.getElementById('carKM').value;
+    const carUnitsInStock = document.getElementById('carUnitsInStock').value;
+    const carActive = document.getElementById('carActive').checked;
 
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
 
-    const productData = {
-        brandId: productBrandId,
-        brand: productBrand,
-        model: productModel,
-        color: productColor,
-        gear: productGear,
-        price: productPrice,
-        year: productYear,
-        totalKm: productKM,
-        unitsInStock: productUnitsInStock,
-        active: productActive
+    const carData = {
+        brandId: carBrandId,
+        brand: carBrand,
+        model: carModel,
+        color: carColor,
+        gear: carGear,
+        price: carPrice,
+        year: carYear,
+        totalKm: carKM,
+        unitsInStock: carUnitsInStock,
+        active: carActive
     };
 
-    formData.append('product', new Blob([JSON.stringify(productData)], { type: 'application/json' }));
+    formData.append('car', new Blob([JSON.stringify(carData)], { type: 'application/json' }));
 
     await fetch('http://localhost:8081/car/save', {
         method: 'POST',
@@ -66,23 +66,23 @@ async function addProduct() {
             console.error('Error:', error);
         });
     // Backend'e POST isteği gönder.
-    // products.push(newProduct);
-    getAllProduct();
-    resetAddProductForm(); // Modal formunu sıfırla.
+    
+    getAllCar();
+    resetAddCarForm(); // Modal formunu sıfırla.
     //backende istek at
-    $('#addProductModal').modal('hide'); // Modal'ı kapat.   
+    $('#addCarModal').modal('hide'); // Modal'ı kapat.   
 
 }
 
-//product tablosunu güncellemek için
-async function renderProductTable() {
+//car tablosunu güncellemek için
+async function renderCarTable() {
 
-    const productTableBody = document.getElementById("productTableBody");
-    productTableBody.innerHTML = "";
+    const carTableBody = document.getElementById("carTableBody");
+    carTableBody.innerHTML = "";
 
-    products.forEach(car => {
+    cars.forEach(car => {
 
-        const row = productTableBody.insertRow();
+        const row = carTableBody.insertRow();
         row.innerHTML = `
         <td> ${car.brandId} </td>
         <td> ${car.brand } </td>
@@ -96,13 +96,13 @@ async function renderProductTable() {
         <td><img src="C:\\Users\\hasan.demircan\\Desktop\\e-commerce\\${car.image}" alt="${car.name}" style="max-width: 50px; ax-height: 50px;"> </td>
         <td> ${car.active ? 'Yes' : 'No'} </td>
         <td>
-            <button class="btn btn-warning btn-sm" onclick="editProduct(${car.id})">Güncelle</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${car.id})">Sil</button>
+            <button class="btn btn-warning btn-sm" onclick="editCar(${car.id})">Güncelle</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteCar(${car.id})">Sil</button>
         </td>    
       `;
     });
 }
-async function getAllProduct() {
+async function getAllCar() {
 
     try {
         const response = await fetch('http://localhost:8081/car/all', {
@@ -114,11 +114,11 @@ async function getAllProduct() {
         });
 
         if (!response.ok) {
-            throw new Error('Failed to fetch products');
+            throw new Error('Failed to fetch cars');
         }
 
-        products = await response.json();
-        await renderProductTable(); // Yeni ürünü tabloya ekleyerek güncelle.
+        cars = await response.json();
+        await renderCarTable(); // Yeni ürünü tabloya ekleyerek güncelle.
 
 
     } catch (error) {
@@ -128,8 +128,8 @@ async function getAllProduct() {
 }
 
 // Ürünü silmek için
-function deleteProduct(carId) {
-    const confirmed = confirm("Are you sure you want to delete this product?");
+function deleteCar(carId) {
+    const confirmed = confirm("Are you sure you want to delete this car?");
     if (confirmed) {
         // Silme işlemi burada gerçekleştirilebilir.
         fetch('http://localhost:8081/car/' + carId, {
@@ -143,8 +143,8 @@ function deleteProduct(carId) {
                 if (response.ok) {
                     // Başarılı ise tabloyu güncelle
 
-                    products = products.filter(product => car.id !== carId);
-                    renderProductTable();
+                    cars = cars.filter(car => car.id !== carId);
+                    renderCarTable();
                 } else {
                     // Başarısız ise hata mesajını logla
                     console.error('Error:', response.status);
@@ -157,88 +157,88 @@ function deleteProduct(carId) {
     }
 }
 
-function resetAddProductForm() {
-    document.getElementById('productImage');
-    document.getElementById('productBrandId').value;
-    document.getElementById('productBrand').value;
-    document.getElementById('productModel').value; 
-    document.getElementById('productColor').value;     
+function resetAddCarForm() {
+    document.getElementById('carImage');
+    document.getElementById('carBrandId').value;
+    document.getElementById('carBrand').value;
+    document.getElementById('carModel').value; 
+    document.getElementById('carColor').value;     
     // Vites seçimi için önce id alınmalı. name bilgisi üzerinden bu sağlanıyor. 
-    const productGear = selectedGear ? selectedGear.id : null;
+    const carGear = selectedGear ? selectedGear.id : null;
     document.querySelector('input[name="gearStatus"]:checked');
     
     
-    document.getElementById('productPrice').value;
-    document.getElementById('productYear').value;
-    document.getElementById('productKM').value;
-    document.getElementById('productUnitsInStock').value;
-    document.getElementById('productActive').checked;
+    document.getElementById('carPrice').value;
+    document.getElementById('carYear').value;
+    document.getElementById('carKM').value;
+    document.getElementById('carUnitsInStock').value;
+    document.getElementById('carActive').checked;
 }
 
 // Düzenleme modalını kapatmak için
-function closeEditProductModal() {
-    const editProductModal = new bootstrap.Modal(document.getElementById("editProductModal"));
-    editProductModal.hide();
+function closeEditCarModal() {
+    const editCarModal = new bootstrap.Modal(document.getElementById("editCarModal"));
+    editCarModal.hide();
 }
 
 //Ürünü düzenlemek için modal görünümünü göster ve veri güncelle
-function editProduct(productId) {
-    const selectedProduct = products.find(product => product.id === productId);
+function editCar(carId) {
+    const selectedCar = cars.find(car => car.id === carId);
 
-    document.getElementById('editProductId').value = selectedProduct.brandId;
-    document.getElementById('editProductBrandId').value = selectedProduct.brandId;
-    document.getElementById('editProductBrand').value = selectedProduct.brand;
-    document.getElementById('editProductModel').value = selectedProduct.model; 
-    document.getElementById('editProductColor').value = selectedProduct.color;    
-    document.getElementById('editProductGear').value = selectedProduct.gear; 
-    document.getElementById('editProductPrice').value = selectedProduct.price;
-    document.getElementById('editProductYear').value = selectedProduct.year;
-    document.getElementById('editProductKM').value = selectedProduct.totalKm;
-    document.getElementById('editProductUnitsInStock').value = selectedProduct.unitsInStock;
-    document.getElementById('editProductActive').checked = selectedProduct.active;
+    document.getElementById('editCarId').value = selectedCar.brandId;
+    document.getElementById('editCarBrandId').value = selectedCar.brandId;
+    document.getElementById('editCarBrand').value = selectedCar.brand;
+    document.getElementById('editCarModel').value = selectedCar.model; 
+    document.getElementById('editCarColor').value = selectedCar.color;    
+    document.getElementById('editCarGear').value = selectedCar.gear; 
+    document.getElementById('editCarPrice').value = selectedCar.price;
+    document.getElementById('editCarYear').value = selectedCar.year;
+    document.getElementById('editCarKM').value = selectedCar.totalKm;
+    document.getElementById('editCarUnitsInStock').value = selectedCar.unitsInStock;
+    document.getElementById('editCarActive').checked = selectedCar.active;
 
-    const editProductModal = new bootstrap.Modal(document.getElementById("editProductModal"));
-    editProductModal.show();
+    const editCarModal = new bootstrap.Modal(document.getElementById("editCarModal"));
+    editCarModal.show();
 }
 
 //Düzenlenmiş ürünü kaydetmek için 
-function saveEditedProduct() {
+function saveEditedCar() {
 
-    const editedProductId = parseInt(document.getElementById("editProductId").value);
+    const editedCarId = parseInt(document.getElementById("editCarId").value);
     //Görsel seçimi için input elementini al
-    const editedImageInput = document.getElementById('editProductImage');
-    const editedProductBrandId = document.getElementById('editProductBrandId').value;
-    const editedProductBrand = document.getElementById('editProductBrand').value;
-    const editedProductModel = document.getElementById('editProductModel').value; 
-    const editedProductColor = document.getElementById('editProductColor').value;
-    const editedProductGear = document.getElementById('editProductGear').value;
-    const editedProductPrice = document.getElementById('editProductPrice').value;
-    const editedProductYear = document.getElementById('editProductYear').value;
-    const editedProductKM = document.getElementById('editProductKM').value;
-    const editedProductUnitsInStock = document.getElementById('editProductUnitsInStock').value;
-    const editedProductActive = document.getElementById('editProductActive').checked;
+    const editedImageInput = document.getElementById('editCarImage');
+    const editedCarBrandId = document.getElementById('editCarBrandId').value;
+    const editedCarBrand = document.getElementById('editCarBrand').value;
+    const editedCarModel = document.getElementById('editCarModel').value; 
+    const editedCarColor = document.getElementById('editCarColor').value;
+    const editedCarGear = document.getElementById('editCarGear').value;
+    const editedCarPrice = document.getElementById('editCarPrice').value;
+    const editedCarYear = document.getElementById('editCarYear').value;
+    const editedCarKM = document.getElementById('editCarKM').value;
+    const editedCarUnitsInStock = document.getElementById('editCarUnitsInStock').value;
+    const editedCarActive = document.getElementById('editCarActive').checked;
 
     
     
 
-    const productData = {
-        id: editedProductId,
-        brand: editProductBrand,
-        model: editProductModel,
-        color: editProductColor,
-        gear: editProductGear,
-        price: editedProductPrice,
-        year: editedProductYear,
-        totalKm: editedProductKM,
-        unitsInStock: editedProductUnitsInStock,
+    const carData = {
+        id: editedCarId,
+        brand: editCarBrand,
+        model: editCarModel,
+        color: editCarColor,
+        gear: editCarGear,
+        price: editedCarPrice,
+        year: editedCarYear,
+        totalKm: editedCarKM,
+        unitsInStock: editedCarUnitsInStock,
         
-        active: editedProductActive,
-        image: products.find(product => product.id === editedProductId).image
+        active: editedCarActive,
+        image: cars.find(car => car.id === editedCarId).image
     };
 
     const formData = new FormData();
     formData.append('file', feditedSelectedImage = editedImageInput.files[0]);
-    formData.append('product', new Blob([JSON.stringify(productData)], { type: 'application/json' }));
+    formData.append('car', new Blob([JSON.stringify(carData)], { type: 'application/json' }));
 
     fetch('http://localhost:8081/car/update', {
         method: 'PUT',
@@ -257,16 +257,16 @@ function saveEditedProduct() {
             console.error('Error:', error);
         });
     // Edit modalı kapat
-    $('#editProductModal').modal('hide');
+    $('#editCarModal').modal('hide');
 
-    closeEditProductModal();
-    //  $('#editProductModal').modal('hide'); // Modal'ı kapat.
+    closeEditCarModal();
+    
 }
 
 // Sayfa yüklendiğinde çağrılacak fonksiyonlar
 document.addEventListener("DOMContentLoaded", async () => {
-    await getAllProduct();
-    renderProductTable();
+    await getAllCar();
+    renderCarTable();
 })
 
 

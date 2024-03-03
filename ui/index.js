@@ -6,7 +6,7 @@ const customerId = localStorage.getItem('customerId');
 //sepet içeriği
 let cartItems = [];
 
-// ürün listesini oluştur.
+// Ürün listesini oluştur.
 function renderCarList() {
     const carList = document.getElementById("carList");
     carList.innerHTML = "";
@@ -32,9 +32,24 @@ function renderCarList() {
                 <button class="btn btn-primary" onclick="addToCart(${car.id})"> Sepete Ekle </button>
             `;
 
+            // Kiralama bilgilerini içeren div elementini oluştur
+            const rentalInfoDiv = document.createElement("div");
+            rentalInfoDiv.style.display = "none"; // Başlangıçta gizli
+
+            // Kiralama tarihi ve süresini içeren paragrafları ekle
+            const rentalDateParagraph = document.createElement("p");
+            rentalDateParagraph.textContent = `Kiralama Tarihi: ${rentalInfo.date}`;
+            const rentalDurationParagraph = document.createElement("p");
+            rentalDurationParagraph.textContent = `Süre: ${rentalInfo.duration} gün`;
+
+            // Paragrafları div içine ekle
+            rentalInfoDiv.appendChild(rentalDateParagraph);
+            rentalInfoDiv.appendChild(rentalDurationParagraph);
+
             // Image ve card içeriğini carCard'a ekle
             carCard.appendChild(carImage);
             carCard.appendChild(cardBody);
+            carCard.appendChild(rentalInfoDiv);
 
             // carCard'ı carList'e ekle
             carList.appendChild(carCard);
@@ -57,15 +72,25 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Satın al butonunu dinle
     document.getElementById('buyButton').addEventListener('click', function () {
-        // Satın alma işlemi
+
+       const rentalDate = prompt('Kiralama Tarihi (YYYY-MM-DD):');
+       const rentalDuration = parseInt(prompt('Kiralama Süresi (Gün):'), 10);
+
+     if (rentalDate && !isNaN(rentalDuration) && rentalDuration > 0) {
+        setRentalInfo(rentalDate, rentalDuration);
+
+         // Satın alma işlemi
         alert('Satın alma işleminiz başarıyla tamamlandı!');
-        // Siparişi backend'e gönderme işlemi burada gerçekleştirilebilir
+        
 
         // Sipariş verildikten sonra sepeti temizle
         clearCart();
         // Satın al butonunun görünürlüğünü güncelle
         updateBuyButtonVisiblitiy();
-    });
+    } else {
+        alert('Geçerli bir kiralama tarihi ve süresi girin.');
+    }
+});
 
     // Sayfa yüklendiğinde çağrılacak fonksiyonlar
     renderCarList();
@@ -222,7 +247,7 @@ document.getElementById("buyButton").addEventListener('click', function () {
 
 
     //kullanıcı sipariş ver dedğinde backend api ye istek atar
-    fetch('http://localhost:8080/order', {
+    fetch('http://localhost:8081/order', {
         method: 'POST',
         body: JSON.stringify({
             customerId,
