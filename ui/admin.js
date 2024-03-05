@@ -2,29 +2,28 @@ let cars = [];
 
 const jwtToken = localStorage.getItem('jwtToken');
 
-function logSelectedGear(selectedGear) {
-    if (selectedGear !== null) {
-        console.log("Seçilen Vites: " + selectedGear);
-    } else {
-        console.log("Vites seçilmedi.");,
-
-    }
+function logSelectedGear() {
+    return document.querySelector("input[name=gearStatus]:checked")?.value;
 }
+
+
+
 
 async function addCar() {
     const fileInput = document.getElementById('carImage');
     const carBrandId = document.getElementById('carBrandId').value;
     const carBrand = document.getElementById('carBrand').value;
-    const carModel = document.getElementById('carModel').value; 
+    const carModel = document.getElementById('carModel').value;
     const carColor = document.getElementById('carColor').value;
     // select yapısı denemek için:
-    console.log("Seçilen Renk Değeri: " + carColor);    
+    console.log("Seçilen Renk Değeri: " + carColor);
     // Vites seçimi için önce id alınmalı. name bilgisi üzerinden bu sağlanıyor. 
-    const carGear = selectedGear ? selectedGear.id : null;
-    const selectedGear = document.querySelector('input[name="gearStatus"]:checked');
-    
+    debugger
+
+    const selectedGear = logSelectedGear();
     // vites bilgi görmek için
-    logSelectedGear(carGear);
+    
+    debugger;
     const carPrice = document.getElementById('carPrice').value;
     const carYear = document.getElementById('carYear').value;
     const carKM = document.getElementById('carKM').value;
@@ -39,7 +38,7 @@ async function addCar() {
         brand: carBrand,
         model: carModel,
         color: carColor,
-        gear: carGear,
+        gear: 'AUTOMATIC',
         price: carPrice,
         year: carYear,
         totalKm: carKM,
@@ -66,7 +65,7 @@ async function addCar() {
             console.error('Error:', error);
         });
     // Backend'e POST isteği gönder.
-    
+
     getAllCar();
     resetAddCarForm(); // Modal formunu sıfırla.
     //backende istek at
@@ -85,9 +84,9 @@ async function renderCarTable() {
         const row = carTableBody.insertRow();
         row.innerHTML = `
         <td> ${car.brandId} </td>
-        <td> ${car.brand } </td>
+        <td> ${car.brand} </td>
         <td> ${car.model} </td>
-        <td> ${car.color } </td>
+        <td> ${car.color} </td>
         <td> ${car.gear} </td>
         <td> ${car.price} </td>
         <td> ${car.year} </td>
@@ -103,14 +102,14 @@ async function renderCarTable() {
     });
 }
 async function getAllCar() {
-
     try {
         const response = await fetch('http://localhost:8081/car/all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + jwtToken
-            }
+                Authorization: 'Bearer ' + jwtToken            },
+ 
+
         });
 
         if (!response.ok) {
@@ -161,13 +160,13 @@ function resetAddCarForm() {
     document.getElementById('carImage');
     document.getElementById('carBrandId').value;
     document.getElementById('carBrand').value;
-    document.getElementById('carModel').value; 
-    document.getElementById('carColor').value;     
+    document.getElementById('carModel').value;
+    document.getElementById('carColor').value;
     // Vites seçimi için önce id alınmalı. name bilgisi üzerinden bu sağlanıyor. 
     const carGear = selectedGear ? selectedGear.id : null;
     document.querySelector('input[name="gearStatus"]:checked');
-    
-    
+
+
     document.getElementById('carPrice').value;
     document.getElementById('carYear').value;
     document.getElementById('carKM').value;
@@ -188,9 +187,9 @@ function editCar(carId) {
     document.getElementById('editCarId').value = selectedCar.brandId;
     document.getElementById('editCarBrandId').value = selectedCar.brandId;
     document.getElementById('editCarBrand').value = selectedCar.brand;
-    document.getElementById('editCarModel').value = selectedCar.model; 
-    document.getElementById('editCarColor').value = selectedCar.color;    
-    document.getElementById('editCarGear').value = selectedCar.gear; 
+    document.getElementById('editCarModel').value = selectedCar.model;
+    document.getElementById('editCarColor').value = selectedCar.color;
+    document.getElementById('editCarGear').value = selectedCar.gear;
     document.getElementById('editCarPrice').value = selectedCar.price;
     document.getElementById('editCarYear').value = selectedCar.year;
     document.getElementById('editCarKM').value = selectedCar.totalKm;
@@ -209,7 +208,7 @@ function saveEditedCar() {
     const editedImageInput = document.getElementById('editCarImage');
     const editedCarBrandId = document.getElementById('editCarBrandId').value;
     const editedCarBrand = document.getElementById('editCarBrand').value;
-    const editedCarModel = document.getElementById('editCarModel').value; 
+    const editedCarModel = document.getElementById('editCarModel').value;
     const editedCarColor = document.getElementById('editCarColor').value;
     const editedCarGear = document.getElementById('editCarGear').value;
     const editedCarPrice = document.getElementById('editCarPrice').value;
@@ -218,8 +217,8 @@ function saveEditedCar() {
     const editedCarUnitsInStock = document.getElementById('editCarUnitsInStock').value;
     const editedCarActive = document.getElementById('editCarActive').checked;
 
-    
-    
+
+
 
     const carData = {
         id: editedCarId,
@@ -231,7 +230,7 @@ function saveEditedCar() {
         year: editedCarYear,
         totalKm: editedCarKM,
         unitsInStock: editedCarUnitsInStock,
-        
+
         active: editedCarActive,
         image: cars.find(car => car.id === editedCarId).image
     };
@@ -260,7 +259,7 @@ function saveEditedCar() {
     $('#editCarModal').modal('hide');
 
     closeEditCarModal();
-    
+
 }
 
 // Sayfa yüklendiğinde çağrılacak fonksiyonlar
