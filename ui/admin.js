@@ -18,12 +18,12 @@ async function addCar() {
     // select yapısı denemek için:
     console.log("Seçilen Renk Değeri: " + carColor);
     // Vites seçimi için önce id alınmalı. name bilgisi üzerinden bu sağlanıyor. 
-    debugger
+    
 
     const selectedGear = logSelectedGear();
     // vites bilgi görmek için
     
-    debugger;
+    
     const carPrice = document.getElementById('carPrice').value;
     const carYear = document.getElementById('carYear').value;
     const carKM = document.getElementById('carKM').value;
@@ -38,7 +38,7 @@ async function addCar() {
         brand: carBrand,
         model: carModel,
         color: carColor,
-        gear: 'AUTOMATIC',
+        gear: selectedGear,
         price: carPrice,
         year: carYear,
         totalKm: carKM,
@@ -70,7 +70,7 @@ async function addCar() {
     resetAddCarForm(); // Modal formunu sıfırla.
     //backende istek at
     $('#addCarModal').modal('hide'); // Modal'ı kapat.   
-
+    closeEditCarModal();
 }
 
 //car tablosunu güncellemek için
@@ -184,7 +184,7 @@ function closeEditCarModal() {
 function editCar(carId) {
     const selectedCar = cars.find(car => car.id === carId);
 
-    document.getElementById('editCarId').value = selectedCar.brandId;
+    document.getElementById('editCarId').value = selectedCar.id;
     document.getElementById('editCarBrandId').value = selectedCar.brandId;
     document.getElementById('editCarBrand').value = selectedCar.brand;
     document.getElementById('editCarModel').value = selectedCar.model;
@@ -222,10 +222,11 @@ function saveEditedCar() {
 
     const carData = {
         id: editedCarId,
-        brand: editCarBrand,
-        model: editCarModel,
-        color: editCarColor,
-        gear: editCarGear,
+        brandId: editedCarBrandId,
+        brand: editedCarBrand,
+        model: editedCarModel,
+        color: editedCarColor,
+        gear: editedCarGear,
         price: editedCarPrice,
         year: editedCarYear,
         totalKm: editedCarKM,
@@ -267,5 +268,35 @@ document.addEventListener("DOMContentLoaded", async () => {
     await getAllCar();
     renderCarTable();
 })
+
+function updateCarBrandId() {
+    var selectedBrand = document.getElementById("carBrand").value;
+    var carBrandId;
+  
+    // Burada seçilen markanın Id'sini belirleyebilirsiniz, örneğin bir switch kullanarak
+    switch (selectedBrand) {
+      case "RENAULT":
+        carBrandId = 1;
+        break;
+      case "HONDA":
+        carBrandId = 2;
+        break;
+        case "AUDI":
+        carBrandId = 3;
+        break;
+        case "OPEL":
+        carBrandId = 4;
+        break;
+        case "TOYOTA":
+        carBrandId = 5;
+        break;
+        case "FIAT":
+        carBrandId = 6;
+        break;
+    }
+  
+    // Id'yi input alanına atayın
+    document.getElementById("carBrandId").value = carBrandId;
+  }
 
 

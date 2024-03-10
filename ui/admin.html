@@ -129,24 +129,29 @@
             </div>
             <div class="modal-body">
               <form id="carForm" enctype="multipart/form-data">
-                <div class="mb-3">
-                  <label for="carBrandId" class="form-label">Marka Id:</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="carBrandId"
-                    required
-                  />
-                </div>
+                           
                 <div class="mb-3">
                   <label for="carBrand" class="form-label">Marka:</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="carBrand"
-                    required
-                  />
+                  <select
+                  type="text"
+                  class="form-control"
+                  id="carBrand"
+                  required
+                  onchange="updateCarBrandId()"
+                    
+                  >
+                    <option disabled selected>Marka Seçiniz</option>
+                   
+                    <option value="RENAULT">RENAULT</option>
+                    <option value="HONDA">HONDA</option>
+                    <option value="AUDI">AUDI</option>
+                    <option value="OPEL">OPEL</option>
+                    <option value="TOYOTA">TOYOTA</option>
+                    <option value="FIAT">FIAT</option>
+                    
+                  </select>
                 </div>
+
                 <div class="mb-3">
                   <label for="carModel" class="form-label">Model:</label>
                   <input
@@ -191,7 +196,7 @@
                     type="radio"
                     id="manualGear"
                     name="gearStatus"
-                    value="Manuel"
+                    value="MANUAL"
                     required
                   />
                   <label for="manualGear">Manuel</label>
@@ -199,7 +204,7 @@
                     type="radio"
                     id="automaticGear"
                     name="gearStatus"
-                    value="Otomatik"
+                    value="AUTOMATIC"
                     required
                   />
                   <label for="automaticGear">Otomatik</label>
@@ -303,40 +308,44 @@
             </div>
             <div class="modal-body">
               <form id="carForm" enctype="multipart/form-data">
+                           
                 <div class="mb-3">
-                  <label for="carBrandId" class="form-label">Marka Id:</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="carBrandId"
-                    required
-                  />
+                  <label for="editCarBrand" class="form-label">Marka:</label>
+                  <select
+                  type="text"
+                  class="form-control"
+                  id="editCarBrand"                  
+                  onchange="updateCarBrandId()"
+                    
+                  >
+                    <option disabled selected>Marka Seçiniz</option>
+                   
+                    <option value="RENAULT">RENAULT</option>
+                    <option value="HONDA">HONDA</option>
+                    <option value="AUDI">AUDI</option>
+                    <option value="OPEL">OPEL</option>
+                    <option value="TOYOTA">TOYOTA</option>
+                    <option value="FIAT">FIAT</option>
+                    
+                  </select>
                 </div>
+
                 <div class="mb-3">
-                  <label for="carBrand" class="form-label">Marka:</label>
+                  <label for="editCarModel" class="form-label">Model:</label>
                   <input
                     type="text"
                     class="form-control"
-                    id="carBrand"
-                    required
+                    id="editCarModel"
+                    
                   />
                 </div>
                 <div class="mb-3">
-                  <label for="carModel" class="form-label">Model:</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="carModel"
-                    required
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="carColor" class="form-label">Renk:</label>
+                  <label for="editCarColor" class="form-label">Renk:</label>
                   <select
                     type="text"
                     class="form-control"
-                    id="carColor"
-                    required
+                    id="editCarColor"
+                    
                   >
                     <option disabled selected>Renk Seçiniz</option>
                     <option
@@ -359,41 +368,42 @@
                 </div>
 
                 <div class="mb-3">
-                  <label for="carGear" class="form-label">VİTES:</label>
+                  <label for="editCarGear" class="form-label">VİTES:</label>
                   <br />
                   <input
                     type="radio"
                     id="manualGear"
                     name="gearStatus"
-                    required
+                    value="MANUAL"
+                    
                   />
                   <label for="manualGear">Manuel</label>
                   <input
                     type="radio"
                     id="automaticGear"
                     name="gearStatus"
-                    required
+                    value="AUTOMATIC"
+                    
                   />
                   <label for="automaticGear">Otomatik</label>
                 </div>
 
                 <div class="mb-3">
-                  <label for="carPrice" class="form-label">Fiyat:</label>
+                  <label for="editCarPrice" class="form-label">Fiyat:</label>
                   <input
                     type="number"
                     class="form-control"
-                    id="carPrice"
-                    required
+                    id="editCarPrice"                
                   />
                 </div>
 
                 <div class="mb-3">
-                  <label for="carYear" class="form-label">Üretim Yılı:</label>
+                  <label for="editCarYear" class="form-label">Üretim Yılı:</label>
                   <input
                     type="number"
                     class="form-control"
-                    id="carYear"
-                    required
+                    id="editCarYear"
+                    
                     min="2015"
                     max="2024"
                     placeholder="2015-2024 arası bir yıl giriniz"
@@ -401,24 +411,24 @@
                 </div>
 
                 <div class="mb-3">
-                  <label for="carKM" class="form-label"
+                  <label for="editCarKM" class="form-label"
                     >Toplam KM Bilgisi:</label
                   >
                   <input
                     type="number"
                     class="form-control"
-                    id="carKM"
-                    required
+                    id="editCarKM"
+                    
                   />
                 </div>
 
                 <div class="mb-3">
-                  <label for="carUnitsInStock" class="form-label">Stok:</label>
+                  <label for="editCarUnitsInStock" class="form-label">Stok:</label>
                   <input
                     type="number"
                     class="form-control"
-                    id="carUnitsInStock"
-                    required
+                    id="editCarUnitsInStock"
+                    
                   />
                 </div>
 
@@ -426,24 +436,24 @@
                   <input
                     type="checkbox"
                     class="form-check-input"
-                    id="carActive"
+                    id="editCarActive"
                   />
-                  <label class="form-check-label" for="carActive">Aktif</label>
+                  <label class="form-check-label" for="editCarActive">Aktif</label>
                 </div>
                 <div class="mb-3">
-                  <label for="carImage" class="form-label">Görsel Ekle:</label>
+                  <label for="editCarImage" class="form-label">Görsel Ekle:</label>
                   <input
                     type="file"
                     class="form-control"
                     id="carImage"
-                    name="carImage"
+                    name="editCarImage"
                     accept="image/*"
                   />
                 </div>
                 <button
                   type="button"
                   class="btn btn-primary"
-                  onclick="addCar()"
+                  onclick="saveEditedCar()"
                 >
                   Ürün Ekle
                 </button>
