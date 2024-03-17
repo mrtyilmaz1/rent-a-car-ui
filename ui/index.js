@@ -6,16 +6,51 @@ const customerId = localStorage.getItem('customerId');
 //sepet içeriği
 let cartItems = [];
 
+document.addEventListener('DOMContentLoaded', async function () {
+
+    // Kategori seçimini dinle
+    const brandSelect = document.getElementById('brandSelect');
+    
+    brandSelect.addEventListener('change', function () {
+        const selectedBrandId = brandSelect.value;
+        fetchCarsByBrand(selectedBrandId);
+    });
+
+    // Ürünleri ve kategorileri getir
+    await fetchBrand();
+    await fetchCarsByBrand(brandSelect.value);
+
+    // Satın al butonunu dinle
+    document.getElementById('buyButton').addEventListener('click', function () {
+
+       // Satın alma işlemi
+       alert('Satın alma işleminiz başarıyla tamamlandı!');
+
+
+       // Sipariş verildikten sonra sepeti temizle
+       clearCart();
+       // Satın al butonunun görünürlüğünü güncelle
+       updateBuyButtonVisiblitiy();
+
+        
+    });
+
+    // Sayfa yüklendiğinde çağrılacak fonksiyonlar
+    renderCarList();
+    updateCart();
+    updateBuyButtonVisiblitiy();
+});
+
 // Ürün listesini oluştur.
 function renderCarList() {
     const carList = document.getElementById("carList");
     carList.innerHTML = "";
-
+    
     cars.forEach(car => {
         if (car.active) {
             const carCard = document.createElement("div");
             carCard.classList.add("col-md-6", "mb-4");
-
+        
             // İmage elementini oluştur
             const carImage = document.createElement("img");
             carImage.src = `C:\\Users\\murat\\Desktop\\cars\\${car.image}`;
@@ -32,24 +67,12 @@ function renderCarList() {
                 <button class="btn btn-primary" onclick="addToCart(${car.id})"> Sepete Ekle </button>
             `;
 
-            // Kiralama bilgilerini içeren div elementini oluştur
-            const rentalInfoDiv = document.createElement("div");
-            rentalInfoDiv.style.display = "none"; // Başlangıçta gizli
-
-            // Kiralama tarihi ve süresini içeren paragrafları ekle
-            const rentalDateParagraph = document.createElement("p");
-            rentalDateParagraph.textContent = `Kiralama Tarihi: ${rentalInfo.date}`;
-            const rentalDurationParagraph = document.createElement("p");
-            rentalDurationParagraph.textContent = `Süre: ${rentalInfo.duration} gün`;
-
-            // Paragrafları div içine ekle
-            rentalInfoDiv.appendChild(rentalDateParagraph);
-            rentalInfoDiv.appendChild(rentalDurationParagraph);
-
+            
+            
             // Image ve card içeriğini carCard'a ekle
             carCard.appendChild(carImage);
             carCard.appendChild(cardBody);
-            carCard.appendChild(rentalInfoDiv);
+            
 
             // carCard'ı carList'e ekle
             carList.appendChild(carCard);
@@ -57,46 +80,7 @@ function renderCarList() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', async function () {
 
-    // Kategori seçimini dinle
-    const brandSelect = document.getElementById('brandSelect');
-    brandSelect.addEventListener('change', function () {
-        const selectedBrandId = brandSelect.value;
-        fetchcarsByBrand(selectedBrandId);
-    });
-
-    // Ürünleri ve kategorileri getir
-    await fetchBrands();
-    await fetchcarsByBrand(brandSelect.value);
-
-    // Satın al butonunu dinle
-    document.getElementById('buyButton').addEventListener('click', function () {
-
-       const rentalDate = prompt('Kiralama Tarihi (YYYY-MM-DD):');
-       const rentalDuration = parseInt(prompt('Kiralama Süresi (Gün):'), 10);
-
-     if (rentalDate && !isNaN(rentalDuration) && rentalDuration > 0) {
-        setRentalInfo(rentalDate, rentalDuration);
-
-         // Satın alma işlemi
-        alert('Satın alma işleminiz başarıyla tamamlandı!');
-        
-
-        // Sipariş verildikten sonra sepeti temizle
-        clearCart();
-        // Satın al butonunun görünürlüğünü güncelle
-        updateBuyButtonVisiblitiy();
-    } else {
-        alert('Geçerli bir kiralama tarihi ve süresi girin.');
-    }
-});
-
-    // Sayfa yüklendiğinde çağrılacak fonksiyonlar
-    renderCarList();
-    updateCart();
-    updateBuyButtonVisiblitiy();
-});
 
 // Kategorileri getirme fonksiyonu
 async function fetchBrand() {
@@ -134,6 +118,7 @@ function displayBrands(brands) {
 
 // Ürünleri kategoriye göre getirme fonksiyonu
 async function fetchCarsByBrand(brandId) {
+    
     const endpointUrl = 'http://localhost:8081/car/brand/' + brandId;
     try {
         const response = await fetch(endpointUrl, {
@@ -147,9 +132,12 @@ async function fetchCarsByBrand(brandId) {
             throw new Error('Başarısız durum kodu: ' + response.status);
         }
 
+        
         const data = await response.json();
         brands = data;
-        renderBrandList();
+        cars = data;
+        ;
+        renderCarList();
     } catch (error) {
         console.error("Error fetching brands:", error);
     }
@@ -157,9 +145,15 @@ async function fetchCarsByBrand(brandId) {
 
 //sepete ürün ekle
 function addToCart(carId) {
-    const brandToAdd = brands.find(brand => brand.id === brandId);
+    const orderStartedDate = document.getElementById("orderStartedDate").value;
+    const rentDay = parseInt(document.getElementById("rentDay").value);
+
+    
+    debugger
+    const brandToAdd = cars.find(car => car.id === carId);
+    
     if (brandToAdd && brandToAdd.unitsInStock > 0) {
-        cartItems.push({ id: brandToAdd.id, name: brandToAdd.brand + brandToAdd.model, price: brandToAdd.price })
+        cartItems.push({ id: brandToAdd.id, name: brandToAdd.brand + brandToAdd.model, price: rentDay*brandToAdd.price })
         brandToAdd.unitsInStock--; // stoktan düş, çünkü ben sepetime eklediysem ve 1 tane varsa başkası alamasın.
         updateCart();
         updateBuyButtonVisiblitiy();
@@ -168,7 +162,7 @@ function addToCart(carId) {
 
 function updateCart() {
     const cart = document.getElementById("cart");
-    cart.innerHTML = ""; //temizle
+    cart.innerHTML = ""; 
 
     //sepet içeriğini göster
     cartItems.forEach((item, index) => {
@@ -217,9 +211,21 @@ function updateBuyButtonVisiblitiy() {
 //Satın Al (buyButton) tıklama olayını(event/function) ekle.
 //istersen buyButton id'li html'e git ve onclick=functionName ekleyerek buraya function ekle.
 document.getElementById("buyButton").addEventListener('click', function () {
+
+    const orderStartedDate = new Date (document.getElementById("orderStartedDate").value);    
+    const rentDay = parseInt(document.getElementById("rentDay").value);
+    const orderFinishedDate = new Date(orderStartedDate).setDate(new Date(orderStartedDate).getDate() + rentDay);
+
+    const dataToSend = {
+        orderStartedDate: new Date (orderStartedDate),
+        rentDay: rentDay,
+        orderFinishedDate: orderFinishedDate // Tarih nesnesi olarak göndermek için
+    };
+
     //Burada satın alma işlemini gerçekleştireceğiz.
     //yani backende istek atacaz, cartItems içerisinde bulunan ürünleri
     alert("Satın alma işleminiz başarıyla tamamlandı!")
+
 
     // Create a map to store counts
     const idCountMap = new Map();
@@ -227,6 +233,9 @@ document.getElementById("buyButton").addEventListener('click', function () {
     // Iterate through the cartItems array
     cartItems.forEach(item => {
         const { id } = item;
+
+        
+
 
         // Check if the id exists in the map
         if (idCountMap.has(id)) {
@@ -242,8 +251,8 @@ document.getElementById("buyButton").addEventListener('click', function () {
     idCountMap.forEach((count, id) => {
         console.log(`ID: ${id}, Count: ${count}`);
     });
-    var orderProductInfoList = [...idCountMap].map(([productId, quantity]) => ({ productId, quantity }));
-    console.log("map to List -> " + orderProductInfoList)
+    var orderCarInfoList = [...idCountMap].map(([carId, quantity]) => ({ carId, quantity }));
+    console.log("map to List -> " + orderCarInfoList)
 
 
     //kullanıcı sipariş ver dedğinde backend api ye istek atar
@@ -251,7 +260,8 @@ document.getElementById("buyButton").addEventListener('click', function () {
         method: 'POST',
         body: JSON.stringify({
             customerId,
-            orderProductInfoList
+            orderCarInfoList,
+            dataToSend
         }),
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
@@ -281,9 +291,29 @@ function clearCart() {
 
 // Sayfa yüklendiğinde çağrılacak fonksiyonlar
 document.addEventListener("DOMContentLoaded", async () => {
-    //await getProductListByApi();
+    //await getCarListByApi();
 
-    renderProductList();
-    updateCart();
+    renderCarList();
+    //updateCart();
     updateBuyButtonVisiblitiy();
 })
+
+document.addEventListener("DOMContentLoaded", function() {
+    const rentalDateInput = document.getElementById("orderStartedDate");
+
+    // Bugünün tarihini al
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    if (month < 10) {
+        month = "0" + month; // Ayı iki basamaklı hale getir
+    }
+    let day = today.getDate();
+    if (day < 10) {
+        day = "0" + day; // Günü iki basamaklı hale getir
+    }
+    const formattedToday = year + "-" + month + "-" + day;
+
+    // Input alanına bugünün tarihini yerleştir
+    rentalDateInput.value = formattedToday;
+});

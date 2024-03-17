@@ -16,7 +16,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <a style="margin-left: 10px" class="navbar-brand" href="index.html">
+      <a style="margin-left: 10px" class="navbar-category" href="index.html">
         <img
           src="car-icon.png"
           width="35"
@@ -30,6 +30,9 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="nav-link" href="login.html" id="loginLink">Giriş Yap</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html" id="logoutLink" onclick="logout()">Çıkış Yap</a>  
           </li>
           <li class="nav-item">
             <a class="nav-link" href="signup.html" id="signupLink">Kaydol</a>
@@ -54,7 +57,7 @@
             </ul>
           </li>
         </ul>
-        <a style="margin-left: 10px" class="navbar-brand" href="#">
+        <a style="margin-left: 10px" class="navbar-category" href="#">
           <img
             src="key-icon.png"
             width="30"
@@ -70,7 +73,7 @@
     <div class="col-md-4">
       <h2>Kategoriler</h2>
       <select
-        id="categorySelect"
+        id="brandSelect"
         class="form-select"
         aria-label="Kategoriyi Seç"
       >
@@ -81,21 +84,24 @@
     <!-- İçerik -->
     <div class="container mt-5">
       <div class="row">
+        <div class="col-md-6">
+          <h2>Kiralama Bilgileri</h2>
+          <label for="orderStartedDate">Kiralama Tarihi:</label>
+          <input type="date" id="orderStartedDate" class="form-control mb-2" />
+          <label for="rentDay">Kiralama Süresi (Gün):</label>
+          <input type="number" id="rentDay" class="form-control mb-2" value="1" />
+        </div>
         <!-- Ürün Listesi -->
         <div class="col-md-8">
           <h2>Ürünler</h2>
           <div id="carList" class="row">
             <!-- Ürünler buraya dinamik olarak eklenecek -->
+            
           </div>
+         
         </div>
       
-        <div class="col-md-6">
-          <h2>Kiralama Bilgileri</h2>
-          <label for="rentalDate">Kiralama Tarihi:</label>
-          <input type="date" id="rentalDate" class="form-control mb-2" />
-          <label for="rentalDuration">Kiralama Süresi (Gün):</label>
-          <input type="number" id="rentalDuration" class="form-control mb-2" />
-        </div>
+       
       
 
         
@@ -120,5 +126,6 @@
 
     <!-- Uygulama JavaScript dosyası -->
     <script src="index.js"></script>
+    <script src="login.js"></script>
   </body>
 </html>

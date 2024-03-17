@@ -1,4 +1,4 @@
-let cars = [];
+var cars = [];
 
 const jwtToken = localStorage.getItem('jwtToken');
 
@@ -11,19 +11,15 @@ function logSelectedGear() {
 
 async function addCar() {
     const fileInput = document.getElementById('carImage');
-    const carBrandId = document.getElementById('carBrandId').value;
+    const carBrandId =updateCarBrandId();
     const carBrand = document.getElementById('carBrand').value;
     const carModel = document.getElementById('carModel').value;
     const carColor = document.getElementById('carColor').value;
     // select yapısı denemek için:
     console.log("Seçilen Renk Değeri: " + carColor);
     // Vites seçimi için önce id alınmalı. name bilgisi üzerinden bu sağlanıyor. 
-    
-
     const selectedGear = logSelectedGear();
-    // vites bilgi görmek için
-    
-    
+    // vites bilgi görmek için   
     const carPrice = document.getElementById('carPrice').value;
     const carYear = document.getElementById('carYear').value;
     const carKM = document.getElementById('carKM').value;
@@ -70,7 +66,7 @@ async function addCar() {
     resetAddCarForm(); // Modal formunu sıfırla.
     //backende istek at
     $('#addCarModal').modal('hide'); // Modal'ı kapat.   
-    closeEditCarModal();
+    
 }
 
 //car tablosunu güncellemek için
@@ -83,6 +79,7 @@ async function renderCarTable() {
 
         const row = carTableBody.insertRow();
         row.innerHTML = `
+        <td> ${car.id} </td>
         <td> ${car.brandId} </td>
         <td> ${car.brand} </td>
         <td> ${car.model} </td>
@@ -92,7 +89,7 @@ async function renderCarTable() {
         <td> ${car.year} </td>
         <td> ${car.totalKm} </td>    
         <td> ${car.unitsInStock} </td>
-        <td><img src="C:\\Users\\hasan.demircan\\Desktop\\e-commerce\\${car.image}" alt="${car.name}" style="max-width: 50px; ax-height: 50px;"> </td>
+        <td><img src="C:\\Users\\murat\\Desktop\\rent-a-car\\ui\\${car.image}" alt="${car.brand}" style="max-width: 50px; ax-height: 50px;"> </td>
         <td> ${car.active ? 'Yes' : 'No'} </td>
         <td>
             <button class="btn btn-warning btn-sm" onclick="editCar(${car.id})">Güncelle</button>
@@ -195,6 +192,7 @@ function editCar(carId) {
     document.getElementById('editCarKM').value = selectedCar.totalKm;
     document.getElementById('editCarUnitsInStock').value = selectedCar.unitsInStock;
     document.getElementById('editCarActive').checked = selectedCar.active;
+    //document.getElementById('editCarImage') = selectedCar.image;
 
     const editCarModal = new bootstrap.Modal(document.getElementById("editCarModal"));
     editCarModal.show();
@@ -205,12 +203,12 @@ function saveEditedCar() {
 
     const editedCarId = parseInt(document.getElementById("editCarId").value);
     //Görsel seçimi için input elementini al
-    const editedImageInput = document.getElementById('editCarImage');
+    //const editedImageInput = document.getElementById('editCarImage');
     const editedCarBrandId = document.getElementById('editCarBrandId').value;
     const editedCarBrand = document.getElementById('editCarBrand').value;
     const editedCarModel = document.getElementById('editCarModel').value;
     const editedCarColor = document.getElementById('editCarColor').value;
-    const editedCarGear = document.getElementById('editCarGear').value;
+    const editedCarGear = logSelectedGear();
     const editedCarPrice = document.getElementById('editCarPrice').value;
     const editedCarYear = document.getElementById('editCarYear').value;
     const editedCarKM = document.getElementById('editCarKM').value;
@@ -237,7 +235,8 @@ function saveEditedCar() {
     };
 
     const formData = new FormData();
-    formData.append('file', feditedSelectedImage = editedImageInput.files[0]);
+    debugger;
+    //formData.append('file', editedImageInput.files[0]);
     formData.append('car', new Blob([JSON.stringify(carData)], { type: 'application/json' }));
 
     fetch('http://localhost:8081/car/update', {
@@ -251,15 +250,16 @@ function saveEditedCar() {
         .then(data => {
             // Başarılı sonuç
             console.log(data);
+            $('#editCarModal').modal('hide');
+
+            closeEditCarModal();
         })
         .catch(error => {
             // Hata durumu
             console.error('Error:', error);
         });
     // Edit modalı kapat
-    $('#editCarModal').modal('hide');
-
-    closeEditCarModal();
+    
 
 }
 
@@ -270,9 +270,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 })
 
 function updateCarBrandId() {
+    debugger
     var selectedBrand = document.getElementById("carBrand").value;
     var carBrandId;
-  
+    
     // Burada seçilen markanın Id'sini belirleyebilirsiniz, örneğin bir switch kullanarak
     switch (selectedBrand) {
       case "RENAULT":
@@ -295,8 +296,7 @@ function updateCarBrandId() {
         break;
     }
   
-    // Id'yi input alanına atayın
-    document.getElementById("carBrandId").value = carBrandId;
+  return carBrandId
   }
 
 
